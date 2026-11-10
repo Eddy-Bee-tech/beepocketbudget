@@ -63,9 +63,33 @@ function saveItem(){let n=Number(String(formAmount).replace(/,/g,''));if(!Number
 if(editing)items=items.map(x=>x.id===editing?{...x,type,amount:n,category:formCat,date:formDate,note:formNote}:x);else items.unshift({id:String(Date.now()),createdAt:Date.now(),type,amount:n,category:formCat,date:formDate,note:formNote});
 saveData();go('history')}
 function delItem(id){let x=items.find(y=>y.id===id);if(x&&confirm(`ลบ ${x.category} จำนวน ${money(x.amount)} บาทหรือไม่?`)){items=items.filter(y=>y.id!==id);saveData();render()}}
-function backup(){
- let payload={app:'BeePocketBudget',schemaVersion:1,appVersion:'2.2.0',exportedAt:new Date().toISOString(),transactionCount:items.length,transactions:items};
- let blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`BeePocketBudget-backup-${today()}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);alert(`สร้างไฟล์สำรองแล้ว ${items.length} รายการ กรุณาเก็บไฟล์ไว้ในที่ปลอดภัย`)
+async function backup(){
+ const payload={app:'BeePocketBudget',schemaVersion:1,appVersion:'2.2.0',exportedAt:new Date().toISOString(),transactionCount:items.length,transactions:items};
+ const filename=`BeePocketBudget-backup-${today()}.json`;
+ const json=JSON.stringify(payload,null,2);
+ try{
+  const file=new File([json],filename,{type:'application/json'});
+  // iOS Safari/PWA: use the native share sheet so the user can save the JSON to Files.
+  if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})){
+   await navigator.share({files:[file],title:'BeePocketBudget backup',text:`ไฟล์สำรองข้อมูล ${items.length} รายการ`});
+   return;
+  }
+  // Desktop and browsers supporting the download attribute.
+  const blob=new Blob([json],{type:'application/json;charset=utf-8'});
+  const url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download=filename;a.style.display='none';document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),10000);
+  alert(`เตรียมไฟล์สำรอง ${items.length} รายการแล้ว หากไม่พบไฟล์ในโฟลเดอร์ดาวน์โหลด ให้ลองเปิดแอปผ่าน Safari แล้วกดสำรองอีกครั้ง`);
+ }catch(err){
+  if(err && err.name==='AbortError')return;
+  // Last-resort iOS fallback: open the JSON in a new tab, where Safari can share/save it.
+  try{
+   const blob=new Blob([json],{type:'application/json;charset=utf-8'}),url=URL.createObjectURL(blob);
+   const opened=window.open(url,'_blank');
+   if(opened){setTimeout(()=>URL.revokeObjectURL(url),60000);alert('เปิดไฟล์ JSON แล้ว กรุณากดปุ่มแชร์ใน Safari แล้วเลือก บันทึกไปยัง Files');}
+   else {URL.revokeObjectURL(url);throw err;}
+  }catch(fallbackError){alert('ยังไม่สามารถส่งออกไฟล์ได้ กรุณาเปิด BeePocketBudget ผ่าน Safari โดยตรง แล้วลองใหม่อีกครั้ง');}
+ }
 }
 function restore(e){
  let f=e.target.files&&e.target.files[0];if(!f)return;
