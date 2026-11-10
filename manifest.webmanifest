@@ -1,12 +1,12 @@
 {
-  "name": "BeePocketBudget",
+  "name": "BeePocketBudget – บัญชีฟาร์มผึ้ง",
   "short_name": "BeePocketBudget",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "background_color": "#FFF9EC",
   "theme_color": "#68452F",
-  "description": "สมุดบัญชีสำหรับเกษตรกรผู้เลี้ยงผึ้ง",
+  "description": "สมุดบัญชีรายรับรายจ่ายสำหรับเกษตรกรผู้เลี้ยงผึ้ง ใช้งานได้บน iPhone และ Android",
   "icons": [
     {
       "src": "./icons/icon-192.png",
