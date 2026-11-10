@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#68452f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="BeePocketBudget">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<title>BeePocketBudget</title>
+<style>
+:root{--gold:#d9a52e;--brown:#68452f;--dark:#34251c;--cream:#fff9ec;--muted:#8a7a6d;--green:#39845a;--red:#c65343;--line:#f0e6d7}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--dark);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding-bottom:82px}
+header{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line);padding:10px 15px;display:flex;align-items:center;justify-content:space-between}
+.brandrow{display:flex;align-items:center;gap:10px}.logo{width:42px;height:42px;border-radius:14px;background:#fff1cf;display:grid;place-items:center;font-size:24px}
+.brand{font-weight:900;color:var(--brown)}.tag{font-size:10px;color:var(--muted)}.badge{background:#fff2d2;border-radius:20px;padding:7px 10px;font-size:11px;color:var(--brown)}
+main{max-width:680px;margin:auto;padding:15px}.eyebrow{font-size:11px;color:#b3842d;font-weight:900;letter-spacing:1px;margin:8px 0 6px}
+h1{font-size:24px;margin:4px 0 16px}h2{font-size:16px;margin:4px 0 12px}
+.hero{background:var(--brown);color:var(--cream);padding:20px;border-radius:20px;margin-bottom:14px}.hero small{color:#eed9a7}.hero strong{display:block;font-size:31px;margin:8px 0}.hero em{font-size:10px;color:#e8d8c5;font-style:normal}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-bottom:15px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:13px;min-width:0}.klabel{font-size:11px;color:var(--muted)}.kvalue{font-size:17px;font-weight:900;margin-top:7px;overflow-wrap:anywhere}
+.rowhead{display:flex;justify-content:space-between;align-items:center;margin:10px 0}.link{color:var(--gold);font-weight:900;font-size:12px;cursor:pointer}
+.tx{background:#fff;border:1px solid var(--line);border-radius:14px;padding:11px;margin-bottom:8px;display:flex;gap:10px;align-items:center}.txicon{width:36px;height:36px;border-radius:12px;display:grid;place-items:center}.txbody{flex:1;min-width:0}.txtitle{font-size:12px;font-weight:900}.txsub{font-size:10px;color:var(--muted);margin-top:3px}.txamount{font-size:12px;font-weight:900;white-space:nowrap}
+.btn{border:0;background:var(--gold);padding:14px;border-radius:13px;font-weight:900;color:var(--dark);width:100%;margin:7px 0;cursor:pointer;font-size:14px}.btn.soft{background:#f2e8d8;color:var(--brown)}.btn.danger{background:#fbe9e5;color:var(--red)}
+.empty{text-align:center;background:#fff;padding:25px;border-radius:15px;margin:10px 0;color:var(--muted);font-size:12px}
+.tabs{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:8px 3px calc(8px + env(safe-area-inset-bottom));z-index:10}.tab{border:0;background:none;color:var(--muted);font-size:10px;display:grid;gap:3px;justify-items:center;min-width:0;cursor:pointer}.tab span:first-child{font-size:20px}.tab.active{color:var(--brown);font-weight:900}
+label{display:block;font-size:12px;font-weight:900;margin:13px 0 7px}input,select{width:100%;padding:13px;border:1px solid var(--line);border-radius:12px;background:white;font:inherit;color:var(--dark)}
+.switch,.chips{display:flex;gap:7px;flex-wrap:wrap;margin:8px 0 14px}.switch button,.chip{border:0;background:#f1e9dc;color:var(--brown);padding:10px 13px;border-radius:11px;font-weight:800;cursor:pointer}.switch button.selected,.chip.selected{background:var(--brown);color:white}
+.switch button{flex:1}.amount{font-size:24px;font-weight:900}.chart{display:flex;align-items:end;gap:6px;height:145px;padding:12px 4px 0}.barcol{flex:1;display:flex;align-items:end;justify-content:center;gap:3px;height:115px}.bar{width:9px;min-height:2px;border-radius:4px 4px 0 0}.barlabel{font-size:9px;color:var(--muted);text-align:center;margin-top:5px}
+.smallmuted{font-size:11px;color:var(--muted);line-height:1.6}.actions{display:flex;gap:10px}.actions>*{flex:1}
+hr{border:0;border-top:1px solid var(--line);margin:12px 0}
+@media(min-width:600px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.kvalue{font-size:15px}}
+</style>
+</head>
+<body>
+<header><div class="brandrow"><div class="logo">🐝</div><div><div class="brand">BeePocketBudget</div><div class="tag">สมุดบัญชีสำหรับเกษตรกรผู้เลี้ยงผึ้ง</div></div></div><div class="badge">🍯 ฟาร์มของฉัน</div></header>
+<main id="app"><div class="empty">🐝 กำลังเปิด BeePocketBudget...</div></main>
+<nav class="tabs">
+<button class="tab active" data-screen="home"><span>⌂</span>ภาพรวม</button>
+<button class="tab" data-screen="add"><span>＋</span>เพิ่มรายการ</button>
+<button class="tab" data-screen="history"><span>▤</span>ประวัติ</button>
+<button class="tab" data-screen="reports"><span>▥</span>รายงาน</button>
+<button class="tab" data-screen="more"><span>⚙</span>เพิ่มเติม</button>
+</nav>
+<script src="./app.js"></script>
+</body></html>
