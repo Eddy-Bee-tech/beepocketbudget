@@ -25,7 +25,7 @@ app.innerHTML=`<div class="eyebrow">ภาพรวมการเงิน</div
 if(screen==='add'){
 let vals=cats().map(c=>`<button class="chip ${formCat===c?'selected':''}" onclick="formCat='${c}';render()">${c}</button>`).join('');
 app.innerHTML=`<div class="eyebrow">${editing?'แก้ไขรายการ':'บันทึกรายการใหม่'}</div><h1>${editing?'แก้ไขข้อมูล':'วันนี้ฟาร์มมีรายการอะไร?'}</h1>
-<div class="switch"><button class="${type==='income'?'selected':''}" onclick="type='income';formCat='น้ำผึ้ง';render()">＋ รายรับ</button><button class="${type==='expense'?'selected':''}" onclick="type='expense';formCat='อาหาร';render()">− รายจ่าย</button></div>
+<div class="switch"><button type="button" class="${type==='income'?'selected':''}" onclick="window.setEntryType('income')">＋ รายรับ</button><button type="button" class="${type==='expense'?'selected':''}" onclick="window.setEntryType('expense')">− รายจ่าย</button></div>
 <label>จำนวนเงิน (บาท) *</label><input id="amount" class="amount" inputmode="decimal" placeholder="0.00" value="${esc(formAmount)}" oninput="formAmount=this.value">
 <label>หมวดหมู่</label><div class="chips">${vals}</div><label>วันที่ (YYYY-MM-DD)</label><input id="date" value="${esc(formDate)}" oninput="formDate=this.value"><label>รายละเอียดเพิ่มเติม</label><input id="note" placeholder="เช่น ขายน้ำผึ้ง 5 กิโลกรัม" value="${esc(formNote)}" oninput="formNote=this.value">
 ${btn(editing?'บันทึกการแก้ไข':'บันทึกรายการ','saveItem()')}${btn('ยกเลิก',"editing=null;newItem()",'soft')}`;
@@ -49,6 +49,7 @@ app.innerHTML=`<div class="eyebrow">จัดการข้อมูล</div><h
 }
 }
 let formCat='น้ำผึ้ง',formAmount='',formDate=today(),formNote='';
+window.setEntryType=function(nextType){if(nextType!=='income'&&nextType!=='expense')return;type=nextType;formCat=nextType==='income'?'น้ำผึ้ง':'อาหาร';render()};
 function newItem(){editing=null;type='income';formCat='น้ำผึ้ง';formAmount='';formDate=today();formNote='';go('add')}
 function editItem(id){let x=items.find(y=>y.id===id);if(!x)return;editing=id;type=x.type;formCat=x.category;formAmount=String(x.amount);formDate=x.date;formNote=x.note||'';go('add')}
 function saveItem(){let n=Number(String(formAmount).replace(/,/g,''));if(!Number.isFinite(n)||n<=0){alert('กรุณากรอกจำนวนเงินมากกว่า 0');return}if(!/^\d{4}-\d{2}-\d{2}$/.test(formDate)){alert('กรุณาใช้รูปแบบวันที่ YYYY-MM-DD');return}
